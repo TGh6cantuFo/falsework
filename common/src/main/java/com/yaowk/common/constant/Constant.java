@@ -1,4 +1,4 @@
-package com.yaowk.constant;
+package com.yaowk.common.constant;
 
 /**
  * @authc yaowk

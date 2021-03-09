@@ -1,4 +1,4 @@
-package com.yaowk.yunba;
+package com.yaowk.common.yunba;
 
 import java.util.Map;
 

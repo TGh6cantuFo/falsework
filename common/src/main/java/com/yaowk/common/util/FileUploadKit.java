@@ -1,4 +1,4 @@
-package com.yaowk.util;
+package com.yaowk.common.util;
 
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;

@@ -1,4 +1,4 @@
-package com.yaowk.controller;
+package com.yaowk.common.controller;
 
 /**
  * @authc yaowk

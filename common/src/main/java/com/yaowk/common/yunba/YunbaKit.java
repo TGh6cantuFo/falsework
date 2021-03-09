@@ -1,4 +1,4 @@
-package com.yaowk.yunba;
+package com.yaowk.common.yunba;
 
 import com.jfinal.json.FastJson;
 import com.jfinal.json.Json;

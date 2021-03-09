@@ -1,7 +1,7 @@
-package com.yaowk.util;
+package com.yaowk.common.util;
 
 import com.jfinal.template.IStringSource;
-import com.yaowk.constant.Constant;
+import com.yaowk.common.constant.Constant;
 
 import java.io.File;
 import java.io.IOException;

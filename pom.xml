@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>common</module>
+        <module>user-service</module>
     </modules>
 
     <properties>
@@ -30,10 +31,11 @@
         <slf-log4j.version>1.7.21</slf-log4j.version>
         <pool2.version>2.4.2</pool2.version>
         <redis.version>2.9.0</redis.version>
-        <druid.version>1.0.28</druid.version>
+        <druid.version>1.0.31</druid.version>
         <mysql.version>5.1.20</mysql.version>
         <logging.version>1.2</logging.version>
         <fastjson.version>1.2.30</fastjson.version>
+        <yaowk.version>1.0-SNAPSHOT</yaowk.version>
     </properties>
 
 </project>

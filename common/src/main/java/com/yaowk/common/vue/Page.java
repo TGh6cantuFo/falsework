@@ -1,4 +1,4 @@
-package com.yaowk.vue;
+package com.yaowk.common.vue;
 
 import com.jfinal.plugin.activerecord.ActiveRecordException;
 import com.jfinal.plugin.activerecord.Record;
