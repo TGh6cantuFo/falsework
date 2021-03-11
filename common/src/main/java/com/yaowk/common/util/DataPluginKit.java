@@ -12,13 +12,7 @@ import javax.sql.DataSource;
  * @authc yaowk
  * 2017/6/27
  */
-public class DateSourceKit {
-
-    public static DataSource getDruidDataSource() {
-        DruidPlugin druidPlugin = getDruidPlugin();
-        druidPlugin.start();
-        return druidPlugin.getDataSource();
-    }
+public class DataPluginKit {
 
     public static DruidPlugin getDruidPlugin() {
         Prop prop = PropKit.use("jdbc.properties");

@@ -2,7 +2,7 @@ package com.yaowk.common.generator;
 
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
-import com.yaowk.common.util.DateSourceKit;
+import com.yaowk.common.util.DataPluginKit;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -31,7 +31,7 @@ public abstract class AbstractGenerator {
 
     public void generator() {
         // 创建生成器
-        DataSource dataSource = DateSourceKit.getDruidDataSource();
+        DataSource dataSource = DataPluginKit.getDruidPlugin().getDataSource();
         com.jfinal.plugin.activerecord.generator.Generator gernerator = new com.jfinal.plugin.activerecord.generator.Generator(dataSource, baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
         gernerator.setDialect(new MysqlDialect());
         gernerator.setMetaBuilder(new BaseMetaBuilder(dataSource, tableNames));
@@ -41,7 +41,7 @@ public abstract class AbstractGenerator {
         // 设置是否生成字典文件
         gernerator.setGenerateDataDictionary(false);
         // 设置需要被移除的表名前缀用于生成modelName。例如表名 "osc_user"，移除前缀 "osc_"后生成的model名为 "User"而非 OscUser
-//		gernerator.setRemovedTableNamePrefixes("t_","sys_");
+        gernerator.setRemovedTableNamePrefixes("t_", "sys_");
         // 生成
         gernerator.generate();
     }
