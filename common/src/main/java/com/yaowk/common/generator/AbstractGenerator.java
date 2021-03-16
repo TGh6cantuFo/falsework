@@ -1,7 +1,10 @@
 package com.yaowk.common.generator;
 
 import com.jfinal.kit.PathKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
+import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
+import com.jfinal.plugin.activerecord.generator.ModelGenerator;
 import com.yaowk.common.util.DataPluginKit;
 
 import javax.sql.DataSource;
@@ -20,29 +23,40 @@ public abstract class AbstractGenerator {
     protected String baseModelOutputDir;
     protected String modelPackageName;
     protected String modelOutputDir;
+    protected String tableNamePrefix;
 
-    public AbstractGenerator(List tableNames) {
+    public AbstractGenerator(List tableNames, String tableNamePrefix) {
         this.tableNames = tableNames;
-        this.modelPackageName = this.getClass().getPackage().getName();
+        this.modelPackageName = this.getClass().getPackage().getName().replace("common", "model");
         this.modelOutputDir = PathKit.getWebRootPath() + "/src/main/java/" + modelPackageName.replaceAll("[.]", "/");
         this.baseModelPackageName = modelPackageName + ".base";
         this.baseModelOutputDir = modelOutputDir + "/base";
+        this.tableNamePrefix = tableNamePrefix;
+    }
+
+    public AbstractGenerator(List tableNames) {
+        this(tableNames, null);
     }
 
     public void generator() {
         // 创建生成器
-        DataSource dataSource = DataPluginKit.getDruidPlugin().getDataSource();
-        com.jfinal.plugin.activerecord.generator.Generator gernerator = new com.jfinal.plugin.activerecord.generator.Generator(dataSource, baseModelPackageName, baseModelOutputDir, modelPackageName, modelOutputDir);
-        gernerator.setDialect(new MysqlDialect());
-        gernerator.setMetaBuilder(new BaseMetaBuilder(dataSource, tableNames));
-        gernerator.setGenerateChainSetter(true);
+        DataSource dataSource = DataPluginKit.getDruidDataSource();
+        ModelGenerator modelGenerator = new MyModelGenerator(modelPackageName, baseModelPackageName, modelOutputDir, tableNamePrefix);
+        BaseModelGenerator baseModelGenerator = new BaseModelGenerator(baseModelPackageName, baseModelOutputDir);
+        com.jfinal.plugin.activerecord.generator.Generator generator = new com.jfinal.plugin.activerecord.generator.Generator(dataSource, baseModelGenerator, modelGenerator);
+        generator.setDialect(new MysqlDialect());
+        generator.setMetaBuilder(new BaseMetaBuilder(dataSource, tableNames));
+        generator.setGenerateChainSetter(true);
         // 设置是否在 Model 中生成 dao 对象
-        gernerator.setGenerateDaoInModel(true);
+        generator.setGenerateDaoInModel(true);
         // 设置是否生成字典文件
-        gernerator.setGenerateDataDictionary(false);
+        generator.setGenerateDataDictionary(false);
         // 设置需要被移除的表名前缀用于生成modelName。例如表名 "osc_user"，移除前缀 "osc_"后生成的model名为 "User"而非 OscUser
-        gernerator.setRemovedTableNamePrefixes("t_", "sys_");
+        if (StrKit.notBlank(tableNamePrefix)) {
+            generator.setRemovedTableNamePrefixes(tableNamePrefix);
+        }
+
         // 生成
-        gernerator.generate();
+        generator.generate();
     }
 }

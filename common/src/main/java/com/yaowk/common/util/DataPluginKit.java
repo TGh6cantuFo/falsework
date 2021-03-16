@@ -19,4 +19,10 @@ public class DataPluginKit {
         DruidPlugin druidPlugin = new DruidPlugin(prop.get("jdbcUrl"), prop.get("user"), prop.get("password"), prop.get("driverClass"));
         return druidPlugin;
     }
+
+    public static DataSource getDruidDataSource() {
+        DruidPlugin druidPlugin = getDruidPlugin();
+        druidPlugin.start();
+        return druidPlugin.getDataSource();
+    }
 }

@@ -1,5 +1,8 @@
 package com.yaowk.user.model;
 
+import com.yaowk.common.plugin.FindKv;
+import com.jfinal.plugin.activerecord.SqlPara;
+import java.util.List;
 import com.yaowk.user.model.base.BaseUser;
 
 /**
@@ -7,9 +10,16 @@ import com.yaowk.user.model.base.BaseUser;
  */
 @SuppressWarnings("serial")
 public class User extends BaseUser<User> {
-    public static final User dao = new User().dao();
+	public static final User dao = new User().dao();
+	protected static final String tableNamePrefix = "sys_";
 
-    public void find() {
+	public static String tableName(String table) {
+		return tableNamePrefix + table;
+		}
 
-    }
+	public List<User> find(FindKv kv) {
+		SqlPara sqlPara = getSqlPara("find", kv);
+		return find(sqlPara);
+}
+
 }

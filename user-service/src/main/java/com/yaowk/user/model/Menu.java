@@ -1,5 +1,8 @@
 package com.yaowk.user.model;
 
+import com.yaowk.common.plugin.FindKv;
+import com.jfinal.plugin.activerecord.SqlPara;
+import java.util.List;
 import com.yaowk.user.model.base.BaseMenu;
 
 /**
@@ -8,4 +11,15 @@ import com.yaowk.user.model.base.BaseMenu;
 @SuppressWarnings("serial")
 public class Menu extends BaseMenu<Menu> {
 	public static final Menu dao = new Menu().dao();
+	protected static final String tableNamePrefix = "sys_";
+
+	public static String tableName(String table) {
+		return tableNamePrefix + table;
+		}
+
+	public List<Menu> find(FindKv kv) {
+		SqlPara sqlPara = getSqlPara("find", kv);
+		return find(sqlPara);
+}
+
 }

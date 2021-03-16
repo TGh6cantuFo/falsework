@@ -1,5 +1,8 @@
 package com.yaowk.user.model;
 
+import com.yaowk.common.plugin.FindKv;
+import com.jfinal.plugin.activerecord.SqlPara;
+import java.util.List;
 import com.yaowk.user.model.base.BaseRole;
 
 /**
@@ -8,4 +11,15 @@ import com.yaowk.user.model.base.BaseRole;
 @SuppressWarnings("serial")
 public class Role extends BaseRole<Role> {
 	public static final Role dao = new Role().dao();
+	protected static final String tableNamePrefix = "sys_";
+
+	public static String tableName(String table) {
+		return tableNamePrefix + table;
+		}
+
+	public List<Role> find(FindKv kv) {
+		SqlPara sqlPara = getSqlPara("find", kv);
+		return find(sqlPara);
+}
+
 }

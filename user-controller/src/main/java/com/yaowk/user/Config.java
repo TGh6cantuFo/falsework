@@ -6,10 +6,10 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.yaowk.common.ext.JsonRenderFactory;
+import com.yaowk.common.plugin.CommonSqlPlugin;
 import com.yaowk.common.util.DataPluginKit;
-import com.yaowk.common.util.ScanJarStringSource;
+import com.yaowk.user.common.UserSqlPlugin;
 import com.yaowk.user.controller.UserController;
-import com.yaowk.user.model._MappingKit;
 
 /**
  * @authc yaowk
@@ -41,11 +41,12 @@ public class Config extends JFinalConfig {
         DruidPlugin druidPlugin = DataPluginKit.getDruidPlugin();
         plugins.add(druidPlugin);
         ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-        _MappingKit.mapping(arp);
-        arp.getEngine().addSharedFunction(new ScanJarStringSource("common.sql"));
-        arp.addSqlTemplate(new ScanJarStringSource("user.sql"));
+
+        plugins.add(new CommonSqlPlugin(arp));
+        plugins.add(new UserSqlPlugin(arp));
         arp.setShowSql(true);
         plugins.add(arp);
+
     }
 
     @Override

@@ -1,5 +1,8 @@
 package com.yaowk.user.model;
 
+import com.yaowk.common.plugin.FindKv;
+import com.jfinal.plugin.activerecord.SqlPara;
+import java.util.List;
 import com.yaowk.user.model.base.BaseRoleMenu;
 
 /**
@@ -8,4 +11,15 @@ import com.yaowk.user.model.base.BaseRoleMenu;
 @SuppressWarnings("serial")
 public class RoleMenu extends BaseRoleMenu<RoleMenu> {
 	public static final RoleMenu dao = new RoleMenu().dao();
+	protected static final String tableNamePrefix = "sys_";
+
+	public static String tableName(String table) {
+		return tableNamePrefix + table;
+		}
+
+	public List<RoleMenu> find(FindKv kv) {
+		SqlPara sqlPara = getSqlPara("find", kv);
+		return find(sqlPara);
+}
+
 }
