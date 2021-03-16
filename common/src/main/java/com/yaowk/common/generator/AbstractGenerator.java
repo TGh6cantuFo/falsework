@@ -5,7 +5,7 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.generator.BaseModelGenerator;
 import com.jfinal.plugin.activerecord.generator.ModelGenerator;
-import com.yaowk.common.util.DataPluginKit;
+import com.yaowk.common.kit.DataPluginKit;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -41,7 +41,7 @@ public abstract class AbstractGenerator {
     public void generator() {
         // 创建生成器
         DataSource dataSource = DataPluginKit.getDruidDataSource();
-        ModelGenerator modelGenerator = new MyModelGenerator(modelPackageName, baseModelPackageName, modelOutputDir, tableNamePrefix);
+        ModelGenerator modelGenerator = new MyModelGenerator(modelPackageName, baseModelPackageName, modelOutputDir);
         BaseModelGenerator baseModelGenerator = new BaseModelGenerator(baseModelPackageName, baseModelOutputDir);
         com.jfinal.plugin.activerecord.generator.Generator generator = new com.jfinal.plugin.activerecord.generator.Generator(dataSource, baseModelGenerator, modelGenerator);
         generator.setDialect(new MysqlDialect());

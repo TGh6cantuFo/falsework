@@ -4,14 +4,19 @@
          monitoring="autodetect" dynamicConfig="true">
 
     <defaultCache maxElementsInMemory="10000"
-           overflowToDisk="false" eternal="false" timeToLiveSeconds="60"
-           timeToIdleSeconds="300" diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="120" />
+                  overflowToDisk="false" eternal="false" timeToLiveSeconds="60"
+                  timeToIdleSeconds="300" diskPersistent="false"
+                  diskExpiryThreadIntervalSeconds="120"/>
 
     <cache name="db" maxElementsInMemory="10000"
            overflowToDisk="false" eternal="false" timeToLiveSeconds="60"
            timeToIdleSeconds="300" diskPersistent="false"
-           diskExpiryThreadIntervalSeconds="120" />
+           diskExpiryThreadIntervalSeconds="120"/>
+
+    <cache name="auth" maxElementsInMemory="10000"
+           overflowToDisk="false" eternal="false" timeToLiveSeconds="60"
+           timeToIdleSeconds="300" diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"/>
     <!--
             缓存配置
                    name:缓存名称。

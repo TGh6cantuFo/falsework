@@ -1,4 +1,4 @@
-package com.yaowk.common.util;
+package com.yaowk.common.kit;
 
 import com.jfinal.core.Controller;
 import com.jfinal.i18n.I18n;

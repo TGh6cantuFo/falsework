@@ -9,15 +9,12 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
  */
 public class MyModelGenerator extends ModelGenerator {
 
-    protected String findTemplate = "\tpublic List<%s> find(FindKv kv) {%n\t\tSqlPara sqlPara = getSqlPara(\"find\", kv);%n\t\treturn find(sqlPara);%n}%n%n";
-    protected String tableNamePrefixTemplate = "\tprotected static final String tableNamePrefix = \"%s\";%n%n";
-    protected String tableNameFunctionTemplate = "\tpublic static String tableName(String table) {%n\t\treturn tableNamePrefix + table;%n\t\t}%n%n";
-    protected String tableNamePrefix = "";
+    protected String findTemplate = "\tpublic List<%s> find(Map condition) {%n\t\tFindKv kv = FindKv.create().setCondition(condition).setTable(tableName);%n\t\tSqlPara sqlPara = getSqlPara(\"find\", kv);%n\t\treturn find(sqlPara);%n\t}%n%n";
+    protected String tableNameTemplate = "\tprotected static final String tableName = \"%s\";%n%n";
     protected String myImportTemplate = "import %s%n";
 
-    public MyModelGenerator(String modelPackageName, String baseModelPackageName, String modelOutputDir, String tableNamePrefix) {
+    public MyModelGenerator(String modelPackageName, String baseModelPackageName, String modelOutputDir) {
         super(modelPackageName, baseModelPackageName, modelOutputDir);
-        this.tableNamePrefix = tableNamePrefix;
     }
 
     @Override
@@ -27,11 +24,11 @@ public class MyModelGenerator extends ModelGenerator {
         this.getMyImport("com.yaowk.common.plugin.FindKv;", ret);
         this.getMyImport("com.jfinal.plugin.activerecord.SqlPara;", ret);
         this.getMyImport("java.util.List;", ret);
+        this.getMyImport("java.util.Map;;", ret);
         this.genImport(tableMeta, ret);
         this.genClassDefine(tableMeta, ret);
         this.genDao(tableMeta, ret);
-        this.getTableNamePrefix(ret);
-        this.getTableNameFunction(ret);
+        this.getTableName(tableMeta, ret);
         this.getFindFunction(tableMeta, ret);
         ret.append(String.format("}%n", new Object[0]));
         tableMeta.modelContent = ret.toString();
@@ -41,12 +38,8 @@ public class MyModelGenerator extends ModelGenerator {
         ret.append(String.format(findTemplate, new Object[] { tableMeta.modelName }));
     }
 
-    protected void getTableNamePrefix(StringBuilder ret) {
-        ret.append(String.format(tableNamePrefixTemplate, new Object[] { tableNamePrefix }));
-    }
-
-    protected void getTableNameFunction(StringBuilder ret) {
-        ret.append(String.format(tableNameFunctionTemplate));
+    protected void getTableName(TableMeta tableMeta, StringBuilder ret) {
+        ret.append(String.format(tableNameTemplate, new Object[] { tableMeta.name }));
     }
 
     protected void getMyImport(String packageString, StringBuilder ret) {

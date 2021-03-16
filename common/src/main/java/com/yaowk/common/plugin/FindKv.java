@@ -2,6 +2,8 @@ package com.yaowk.common.plugin;
 
 import com.jfinal.kit.Kv;
 
+import java.util.Map;
+
 /**
  * @authc yaowk
  * 2017/7/3
@@ -17,7 +19,7 @@ public class FindKv extends Kv {
         return this;
     }
 
-    public FindKv setCondition(Kv condition) {
+    public FindKv setCondition(Map condition) {
         set("condition", condition);
         return this;
     }

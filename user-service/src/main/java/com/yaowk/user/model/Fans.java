@@ -3,6 +3,7 @@ package com.yaowk.user.model;
 import com.yaowk.common.plugin.FindKv;
 import com.jfinal.plugin.activerecord.SqlPara;
 import java.util.List;
+import java.util.Map;;
 import com.yaowk.user.model.base.BaseFans;
 
 /**
@@ -11,15 +12,12 @@ import com.yaowk.user.model.base.BaseFans;
 @SuppressWarnings("serial")
 public class Fans extends BaseFans<Fans> {
 	public static final Fans dao = new Fans().dao();
-	protected static final String tableNamePrefix = "sys_";
+	protected static final String tableName = "sys_fans";
 
-	public static String tableName(String table) {
-		return tableNamePrefix + table;
-		}
-
-	public List<Fans> find(FindKv kv) {
+	public List<Fans> find(Map condition) {
+		FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
 		SqlPara sqlPara = getSqlPara("find", kv);
 		return find(sqlPara);
-}
+	}
 
 }

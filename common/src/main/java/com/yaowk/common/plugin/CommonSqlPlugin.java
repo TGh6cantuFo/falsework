@@ -1,7 +1,7 @@
 package com.yaowk.common.plugin;
 
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.yaowk.common.util.ScanJarStringSource;
+import com.yaowk.common.kit.ScanJarStringSource;
 
 /**
  * @authc yaowk

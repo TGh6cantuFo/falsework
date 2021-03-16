@@ -1,4 +1,4 @@
-package com.yaowk.common.util;
+package com.yaowk.common.kit;
 
 import com.jfinal.template.IStringSource;
 import com.yaowk.common.constant.Constant;

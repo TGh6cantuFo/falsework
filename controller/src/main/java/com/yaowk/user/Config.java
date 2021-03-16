@@ -7,7 +7,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.yaowk.common.ext.JsonRenderFactory;
 import com.yaowk.common.plugin.CommonSqlPlugin;
-import com.yaowk.common.util.DataPluginKit;
+import com.yaowk.common.kit.DataPluginKit;
 import com.yaowk.user.common.UserSqlPlugin;
 import com.yaowk.user.controller.UserController;
 
