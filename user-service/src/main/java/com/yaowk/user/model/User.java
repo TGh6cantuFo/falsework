@@ -5,6 +5,7 @@ import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.yaowk.common.constant.CacheConstant;
 import com.yaowk.common.kit.DbCacheKit;
+import com.yaowk.common.model.base.Page;
 import com.yaowk.common.plugin.FindKv;
 import com.yaowk.user.model.base.BaseUser;
 
@@ -36,6 +37,33 @@ public class User extends BaseUser<User> {
         SqlPara sqlPara = getSqlPara("find", findKv);
         String key = "User:findByUsername:" + username;
         return findFirstByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
+    }
+
+    public com.jfinal.plugin.activerecord.Page<User> paginate(Page page, Map condition) {
+        FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
+        SqlPara sqlPara = getSqlPara("paginate-except", kv);
+        Json json = Json.getJson();
+        String key = "User:paginate:" + json.toJson(page) + json.toJson(kv);
+        DbCacheKit.addKey(key);
+        return paginateByCache(CacheConstant.DB, key, page.getPageNumber(), page.getPageSize(), getSql("paginate-select"), sqlPara.getSql(), sqlPara.getPara());
+    }
+
+    @Override
+    public boolean save() {
+        DbCacheKit.removeCacheStarWith("User:paginate");
+        return super.save();
+    }
+
+    @Override
+    public boolean update() {
+        DbCacheKit.removeCacheStarWith("User");
+        return super.update();
+    }
+
+    @Override
+    public boolean delete() {
+        DbCacheKit.removeCacheStarWith("User");
+        return setStatus("0").update();
     }
 
 }

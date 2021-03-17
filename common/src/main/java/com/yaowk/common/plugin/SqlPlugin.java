@@ -4,6 +4,8 @@ import com.jfinal.plugin.IPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 
 /**
+ * Sql插件抽象类
+ *
  * @authc yaowk
  * 2017/7/3
  */

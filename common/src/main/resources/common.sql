@@ -1,10 +1,19 @@
-#define findList(table,condition)
-  select * from #(table)
+#define getCondition(condition)
   #for(x : condition)
-    #(for.index == 0 ? " where " : " and " ) #(x.key) #p(x.value)
+    #(for.index == 0 ? " WHERE " : " AND " ) #(x.key) #p(x.value)
   #end
 #end
 
 #sql("find")
-  #@findList(table,condition)
+  SELECT * FROM #(table)
+  #@getCondition(condition)
+#end
+
+#sql("paginate-except")
+  FROM #(table)
+  #@getCondition(condition)
+#end
+
+#sql("paginate-select")
+  SELECT *
 #end

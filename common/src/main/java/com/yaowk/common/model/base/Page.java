@@ -1,4 +1,4 @@
-package com.yaowk.common.element;
+package com.yaowk.common.model.base;
 
 import com.jfinal.plugin.activerecord.ActiveRecordException;
 import com.jfinal.plugin.activerecord.Record;

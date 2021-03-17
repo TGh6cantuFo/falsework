@@ -5,6 +5,8 @@ import com.jfinal.kit.Kv;
 import java.util.Map;
 
 /**
+ * 条件查询条件参数
+ *
  * @authc yaowk
  * 2017/7/3
  */

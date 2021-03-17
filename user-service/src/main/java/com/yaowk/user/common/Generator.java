@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * User模块Model生成类
+ *
  * @authc yaowk
  * 2017/6/27
  */

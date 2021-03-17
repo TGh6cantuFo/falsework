@@ -6,7 +6,7 @@ package com.yaowk.common.constant;
  * @authc yaowk
  * 2017/4/29
  */
-public class ServiceCode {
+public interface ServiceCode {
     public static final String NORMAL = "00000";
     public static final String SUCCESS = "00050"; // 操作成功
     public static final String NO_LOGIN = "10000"; // 未登录

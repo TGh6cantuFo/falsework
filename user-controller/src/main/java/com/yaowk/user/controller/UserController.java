@@ -1,8 +1,7 @@
 package com.yaowk.user.controller;
 
-import com.jfinal.kit.Kv;
 import com.yaowk.common.controller.BaseController;
-import com.yaowk.user.model.User;
+import com.yaowk.common.model.base.Page;
 
 /**
  * @authc yaowk
@@ -11,8 +10,12 @@ import com.yaowk.user.model.User;
 public class UserController extends BaseController {
 
     public void index() {
-        Kv condition = Kv.create();
-        User.dao.find(condition);
-        renderNull();
+
     }
+
+    public void list() {
+        Page page = getPage();
+    }
+
+
 }

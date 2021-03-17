@@ -4,6 +4,8 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.yaowk.common.kit.ScanJarStringSource;
 
 /**
+ * Common模块的Sql插件
+ *
  * @authc yaowk
  * 2017/7/3
  */

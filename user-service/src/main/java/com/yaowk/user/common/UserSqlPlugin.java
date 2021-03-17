@@ -1,11 +1,13 @@
 package com.yaowk.user.common;
 
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.yaowk.common.plugin.SqlPlugin;
 import com.yaowk.common.kit.ScanJarStringSource;
+import com.yaowk.common.plugin.SqlPlugin;
 import com.yaowk.user.model._MappingKit;
 
 /**
+ * User模块数据源插件
+ *
  * @authc yaowk
  * 2017/7/3
  */

@@ -1,6 +1,8 @@
 package com.yaowk.common.constant;
 
 /**
+ * 缓存常量配置
+ *
  * @authc yaowk
  * 2017/7/4
  */

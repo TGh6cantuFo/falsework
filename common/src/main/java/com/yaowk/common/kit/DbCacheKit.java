@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 数据库缓存工具类
+ *
  * @authc yaowk
  * 2017/7/4
  */

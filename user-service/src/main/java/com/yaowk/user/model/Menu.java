@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.yaowk.common.constant.CacheConstant;
 import com.yaowk.common.kit.DbCacheKit;
+import com.yaowk.common.model.base.Page;
 import com.yaowk.common.plugin.FindKv;
 import com.yaowk.user.model.base.BaseMenu;
 
@@ -37,6 +38,21 @@ public class Menu extends BaseMenu<Menu> {
         String key = "Menu:findByRoleId:" + roleId;
         DbCacheKit.addKey(key);
         return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
+    }
+
+    public com.jfinal.plugin.activerecord.Page<Menu> paginate(Page page, Map condition) {
+        FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
+        SqlPara sqlPara = getSqlPara("paginate-except", kv);
+        Json json = Json.getJson();
+        String key = "Menu:paginate:" + json.toJson(page) + json.toJson(kv);
+        DbCacheKit.addKey(key);
+        return paginateByCache(CacheConstant.DB, key, page.getPageNumber(), page.getPageSize(), getSql("paginate-select"), sqlPara.getSql(), sqlPara.getPara());
+    }
+
+    @Override
+    public boolean save() {
+        DbCacheKit.removeCacheStarWith("Menu:paginate");
+        return super.save();
     }
 
     @Override
