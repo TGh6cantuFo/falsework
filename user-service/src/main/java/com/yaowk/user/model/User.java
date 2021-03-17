@@ -1,7 +1,10 @@
 package com.yaowk.user.model;
 
+import com.jfinal.json.Json;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.yaowk.common.constant.CacheConstant;
+import com.yaowk.common.kit.DbCacheKit;
 import com.yaowk.common.plugin.FindKv;
 import com.yaowk.user.model.base.BaseUser;
 
@@ -21,7 +24,9 @@ public class User extends BaseUser<User> {
     public List<User> find(Map condition) {
         FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
         SqlPara sqlPara = getSqlPara("find", kv);
-        return find(sqlPara);
+        String key = "User:find:" + Json.getJson().toJson(kv);
+        DbCacheKit.addKey(key);
+        return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     public User findByUsername(String username) {
@@ -29,7 +34,8 @@ public class User extends BaseUser<User> {
         Kv condition = Kv.create().set("username = ", username);
         findKv.setCondition(condition);
         SqlPara sqlPara = getSqlPara("find", findKv);
-        return findFirst(sqlPara);
+        String key = "User:findByUsername:" + username;
+        return findFirstByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
 }

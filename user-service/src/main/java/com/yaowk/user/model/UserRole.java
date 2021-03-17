@@ -1,6 +1,8 @@
 package com.yaowk.user.model;
 
+import com.jfinal.json.Json;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.yaowk.common.constant.CacheConstant;
 import com.yaowk.common.kit.DbCacheKit;
 import com.yaowk.common.plugin.FindKv;
 import com.yaowk.user.model.base.BaseUserRole;
@@ -21,18 +23,22 @@ public class UserRole extends BaseUserRole<UserRole> {
     public List<UserRole> find(Map condition) {
         FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
         SqlPara sqlPara = getSqlPara("find", kv);
-        return find(sqlPara);
+        String key = "UserRole:find:" + Json.getJson().toJson(kv);
+        DbCacheKit.addKey(key);
+        return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     @Override
     public boolean save() {
-        DbCacheKit.removeCache("user:role:findByUserId" + getUserId());
+        DbCacheKit.removeCache("Role:findByUserId" + getUserId());
+        DbCacheKit.removeCacheStarWith("UserRole");
         return super.save();
     }
 
     @Override
     public boolean delete() {
-        DbCacheKit.removeCache("user:role:findByUserId" + getUserId());
+        DbCacheKit.removeCache("Role:findByUserId" + getUserId());
+        DbCacheKit.removeCacheStarWith("UserRole");
         return super.delete();
     }
 }

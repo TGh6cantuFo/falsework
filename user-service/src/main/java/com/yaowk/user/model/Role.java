@@ -1,5 +1,6 @@
 package com.yaowk.user.model;
 
+import com.jfinal.json.Json;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaoleilu.hutool.util.CollectionUtil;
@@ -24,19 +25,21 @@ public class Role extends BaseRole<Role> {
     public List<Role> find(Map condition) {
         FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
         SqlPara sqlPara = getSqlPara("find", kv);
-        return find(sqlPara);
+        String key = "Role:find:" + Json.getJson().toJson(kv);
+        DbCacheKit.addKey(key);
+        return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     public List<Role> findByUserId(Integer userId) {
         SqlPara sqlPara = getSqlPara("role.findByUserId", userId);
-        String key = "user:role:findByUserId" + userId;
+        String key = "Role:findByUserId" + userId;
         DbCacheKit.addKey(key);
         return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     @Override
     public boolean update() {
-        DbCacheKit.removeCacheStarWith("user:role");
+        DbCacheKit.removeCacheStarWith("Role");
         return super.update();
     }
 
@@ -59,7 +62,7 @@ public class Role extends BaseRole<Role> {
                 roleMenu.delete();
             }
         }
-        DbCacheKit.removeCacheStarWith("user:role");
+        DbCacheKit.removeCacheStarWith("Role");
         return super.delete();
     }
 }

@@ -1,5 +1,6 @@
 package com.yaowk.user.model;
 
+import com.jfinal.json.Json;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaoleilu.hutool.util.CollectionUtil;
@@ -26,19 +27,21 @@ public class Menu extends BaseMenu<Menu> {
     public List<Menu> find(Map condition) {
         FindKv kv = FindKv.create().setCondition(condition).setTable(tableName);
         SqlPara sqlPara = getSqlPara("find", kv);
-        return find(sqlPara);
+        String key = "Menu:find:" + Json.getJson().toJson(kv);
+        DbCacheKit.addKey(key);
+        return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     public List<Menu> findByRoleId(Integer roleId) {
         SqlPara sqlPara = getSqlPara("menu.findByRoleId", roleId);
-        String key = "user:menu:findByRoleId:" + roleId;
+        String key = "Menu:findByRoleId:" + roleId;
         DbCacheKit.addKey(key);
         return findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());
     }
 
     @Override
     public boolean update() {
-        DbCacheKit.removeCacheStarWith("user:menu");
+        DbCacheKit.removeCacheStarWith("Menu");
         return super.update();
     }
 
@@ -49,7 +52,7 @@ public class Menu extends BaseMenu<Menu> {
         for (RoleMenu roleMenu : roleMenus) {
             roleMenu.delete();
         }
-        DbCacheKit.removeCacheStarWith("user:menu");
+        DbCacheKit.removeCacheStarWith("Menu");
         return super.delete();
     }
 
