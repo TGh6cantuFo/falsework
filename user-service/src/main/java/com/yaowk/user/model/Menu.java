@@ -10,10 +10,7 @@ import com.yaowk.common.model.base.Page;
 import com.yaowk.common.plugin.FindKv;
 import com.yaowk.user.model.base.BaseMenu;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 ;
 
@@ -79,7 +76,7 @@ public class Menu extends BaseMenu<Menu> {
      * @return
      */
     public List<Menu> getMenuByUserId(Integer userId) {
-        List<Menu> menuList = new ArrayList<>();
+        Set<Menu> menuList = new HashSet<>();
         List<Role> roles = Role.dao.findByUserId(userId);
         if (CollectionUtil.isNotEmpty(roles)) {
             for (Role role : roles) {
@@ -91,7 +88,7 @@ public class Menu extends BaseMenu<Menu> {
                 }
             }
         }
-        return menuList;
+        return CollectionUtil.newArrayList(menuList);
     }
 
     /**

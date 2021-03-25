@@ -1,4 +1,4 @@
-package com.yaowk.user;
+package com.yaowk.config;
 
 import com.jfinal.config.*;
 import com.jfinal.core.JFinal;
@@ -6,19 +6,19 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.yaowk.common.ext.JsonRenderFactory;
-import com.yaowk.common.plugin.CommonSqlPlugin;
 import com.yaowk.common.kit.DataPluginKit;
+import com.yaowk.common.plugin.CommonSqlPlugin;
+import com.yaowk.user.UserRoutes;
 import com.yaowk.user.common.UserSqlPlugin;
-import com.yaowk.user.controller.UserController;
 
 /**
  * @authc yaowk
- * 2017/6/28
+ * 2017/7/13
  */
-public class Config extends JFinalConfig {
+public class MainConfig extends JFinalConfig {
 
     public static void main(String[] args) {
-        JFinal.start("user-controller/src/main/webapp", 80, "/");
+        JFinal.start("config/src/main/webapp", 80, "/");
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Config extends JFinalConfig {
 
     @Override
     public void configRoute(Routes routes) {
-        routes.add("/", UserController.class);
+        routes.add(new UserRoutes());
     }
 
     @Override
@@ -44,9 +44,9 @@ public class Config extends JFinalConfig {
 
         plugins.add(new CommonSqlPlugin(arp));
         plugins.add(new UserSqlPlugin(arp));
+
         arp.setShowSql(true);
         plugins.add(arp);
-
     }
 
     @Override

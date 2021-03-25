@@ -12,6 +12,7 @@
         <module>common</module>
         <module>user-service</module>
         <module>user-controller</module>
+        <module>config</module>
     </modules>
 
     <properties>

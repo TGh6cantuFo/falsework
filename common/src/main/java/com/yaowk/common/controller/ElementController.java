@@ -20,7 +20,9 @@ public class ElementController extends Controller implements IController {
     @Override
     public void renderJson(Object object) {
         RespBody respBody = new RespBody();
-        super.renderJson(object);
+        respBody.setData(object);
+        respBody.setCode(ServiceCode.SUCCESS);
+        super.renderJson(respBody);
     }
 
     @Override
