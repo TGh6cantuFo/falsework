@@ -32,7 +32,7 @@ public class JdbcRealm extends AuthorizingRealm {
         UserInfo userInfo = (UserInfo) principalCollection.getPrimaryPrincipal();
         return CacheKit.get(CacheConstant.AUTH, userInfo.getId() + "authInfo", () -> {
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-            List<Menu> menus = Menu.dao.getMenuByUserId(userInfo.getId());
+            List<Menu> menus = Menu.dao.findMenuByUserId(userInfo.getId());
             for (Menu menu : menus) {
                 info.addStringPermission(menu.getPermission());
             }

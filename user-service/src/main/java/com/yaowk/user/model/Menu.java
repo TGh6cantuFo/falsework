@@ -75,7 +75,7 @@ public class Menu extends BaseMenu<Menu> {
      * @param userId
      * @return
      */
-    public List<Menu> getMenuByUserId(Integer userId) {
+    public List<Menu> findMenuByUserId(Integer userId) {
         Set<Menu> menuList = new HashSet<>();
         List<Role> roles = Role.dao.findByUserId(userId);
         if (CollectionUtil.isNotEmpty(roles)) {
@@ -121,6 +121,15 @@ public class Menu extends BaseMenu<Menu> {
 
     private Map<Integer, Menu> children;
     private Menu parent;
+    private boolean checked;
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 
     public Menu getParent() {
         return parent;
