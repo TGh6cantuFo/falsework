@@ -16,11 +16,12 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("sys_fans", "id", Fans.class);
 		arp.addMapping("sys_menu", "id", Menu.class);
+		arp.addMapping("sys_platform", "id", Platform.class);
 		arp.addMapping("sys_role", "id", Role.class);
 		arp.addMapping("sys_role_menu", "id", RoleMenu.class);
 		arp.addMapping("sys_user", "id", User.class);
+		arp.addMapping("sys_user_platform", "id", UserPlatform.class);
 		arp.addMapping("sys_user_role", "id", UserRole.class);
 	}
 }

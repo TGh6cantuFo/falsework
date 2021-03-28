@@ -28,7 +28,8 @@ public class UserController extends BaseController {
 
     @Clear(Tx.class)
     public void list() {
-        Kv condition = Kv.by("status != ", "0");
+        Integer platformId = getParaToInt("platformId");
+        Kv condition = Kv.by("status != ", "0").set("action_id = ", platformId);
         Page<User> page = User.dao.paginate(getPage(), condition);
         renderJson(page);
     }

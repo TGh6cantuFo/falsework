@@ -13,6 +13,8 @@
         <module>user-service</module>
         <module>user-controller</module>
         <module>config</module>
+        <module>weixin-service</module>
+        <module>weixin-controller</module>
     </modules>
 
     <properties>

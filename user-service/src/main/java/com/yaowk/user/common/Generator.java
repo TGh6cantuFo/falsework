@@ -20,7 +20,7 @@ public class Generator extends AbstractGenerator {
     public static void main(String[] args) {
 
         // 需要生成model的表名
-        List tableNames = Arrays.asList(new String[] { "sys_user", "sys_menu", "sys_role", "sys_role_menu", "sys_user_role", "sys_fans" });
+        List tableNames = Arrays.asList(new String[] { "sys_user", "sys_menu", "sys_role", "sys_role_menu", "sys_user_role", "sys_platform", "sys_user_platform" });
 
         new Generator(tableNames, "sys_").generator();
     }

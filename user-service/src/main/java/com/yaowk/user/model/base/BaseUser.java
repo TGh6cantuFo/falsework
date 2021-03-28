@@ -45,6 +45,15 @@ public abstract class BaseUser<M extends BaseUser<M>> extends Model<M> implement
 		return get("create_time");
 	}
 
+	public M setPlatformId(java.lang.Integer platformId) {
+		set("platform_id", platformId);
+		return (M)this;
+	}
+
+	public java.lang.Integer getPlatformId() {
+		return get("platform_id");
+	}
+
 	public M setStatus(java.lang.String status) {
 		set("status", status);
 		return (M)this;
