@@ -10,8 +10,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>common</module>
-        <module>user-service</module>
-        <module>user-controller</module>
+        <module>system-service</module>
+        <module>system-controller</module>
         <module>config</module>
         <module>weixin-service</module>
         <module>weixin-controller</module>
@@ -25,7 +25,7 @@
         <jfinal.version>3.1</jfinal.version>
         <jfinl-weixin.version>1.8</jfinl-weixin.version>
         <cos.version>26Dec2008</cos.version>
-        <shiro.version>1.2.4</shiro.version>
+        <shiro.version>1.3.2</shiro.version>
         <even.version>1.5.0</even.version>
         <assets.version>1.2.0</assets.version>
         <hutool.version>3.0.1</hutool.version>
@@ -39,6 +39,8 @@
         <mysql.version>5.1.20</mysql.version>
         <logging.version>1.2</logging.version>
         <fastjson.version>1.2.30</fastjson.version>
+        <ehcache.version>2.10.4</ehcache.version>
+        <commons-logging.version>1.2</commons-logging.version>
         <yaowk.version>1.0-SNAPSHOT</yaowk.version>
     </properties>
 

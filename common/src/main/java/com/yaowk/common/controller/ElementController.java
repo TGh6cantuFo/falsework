@@ -29,6 +29,13 @@ public class ElementController extends Controller implements IController {
     public void renderSuccess() {
         RespBody respBody = new RespBody();
         respBody.setCode(ServiceCode.SUCCESS);
-        renderJson(respBody);
+        super.renderJson(respBody);
+    }
+
+    public void renderFail(String code, String msg) {
+        RespBody respBody = new RespBody();
+        respBody.setCode(code);
+        respBody.setMsg(msg);
+        super.renderJson(respBody);
     }
 }
