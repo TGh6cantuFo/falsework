@@ -3,6 +3,7 @@ package com.yaowk.system.interceptor;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.kit.Kv;
+import com.jfinal.log.Log;
 import com.yaowk.common.constant.ServiceCode;
 import com.yaowk.common.controller.BaseController;
 import com.yaowk.common.kit.I18nKit;
@@ -39,6 +40,7 @@ public class PlatformIdInterceptor implements Interceptor {
             invocation.invoke();
         }
         else {
+            Log.getLog("").info("platformIdInterceptor");
             ((BaseController) invocation.getController()).renderFail(ServiceCode.NO_PERMISSION,
                     I18nKit.get("unauthorized", Constant.MODULE_NAME, invocation.getController()));
         }

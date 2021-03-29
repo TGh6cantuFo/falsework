@@ -52,6 +52,7 @@ public class AuthController extends BaseController {
     }
 
     public void unauthorizedUrl() {
+        Log.getLog("").info("unauthorizedUrl");
         renderFail(ServiceCode.NO_PERMISSION, I18nKit.get("unauthorized", Constant.MODULE_NAME, this));
     }
 

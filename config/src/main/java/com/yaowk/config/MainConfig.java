@@ -26,7 +26,7 @@ public class MainConfig extends JFinalConfig {
     private Routes routes;
 
     public static void main(String[] args) {
-        JFinal.start("config/src/main/webapp", 8080, "/");
+        JFinal.start("config/src/main/webapp", 8080, "/falsework");
     }
 
     @Override
