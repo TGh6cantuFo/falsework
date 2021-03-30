@@ -1,5 +1,6 @@
 package com.yaowk.system.shiro;
 
+import com.xiaoleilu.hutool.util.ObjectUtil;
 import org.apache.shiro.SecurityUtils;
 
 /**
@@ -8,7 +9,11 @@ import org.apache.shiro.SecurityUtils;
  */
 public class TokenKit {
     public static final Integer getUserId() {
-        return getUserInfo().getId();
+        UserInfo userInfo = getUserInfo();
+        if (ObjectUtil.isNotNull(userInfo)) {
+            return getUserInfo().getId();
+        }
+        return null;
     }
 
     public static final String getUsername() {

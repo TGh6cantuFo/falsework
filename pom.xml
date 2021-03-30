@@ -15,6 +15,9 @@
         <module>config</module>
         <module>weixin-service</module>
         <module>weixin-controller</module>
+        <module>user-service</module>
+        <module>device-controller</module>
+        <module>device-service</module>
     </modules>
 
     <properties>

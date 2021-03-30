@@ -18,8 +18,8 @@ public class Generator extends AbstractGenerator {
     public static void main(String[] args) {
 
         // 需要生成model的表名
-        List tableNames = Arrays.asList(new String[] { "sys_fans", "sys_action" });
+        List tableNames = Arrays.asList(new String[] { "wx_fans", "wx_order", "wx_config" });
 
-        new Generator(tableNames, "sys_").generator();
+        new Generator(tableNames, "wx_").generator();
     }
 }

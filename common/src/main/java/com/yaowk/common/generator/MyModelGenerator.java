@@ -11,6 +11,7 @@ import com.jfinal.plugin.activerecord.generator.TableMeta;
  */
 public class MyModelGenerator extends ModelGenerator {
 
+    protected String findFirstTemplate = "\tpublic %s findFirst(Map condition) {%n\t\tList<%s> result = find(condition);%n\t\treturn result.size() > 0 ? result.get(0) : null;%n\t}%n%n";
     protected String findTemplate = "\tpublic List<%s> find(Map condition) {%n\t\tFindKv kv = FindKv.create().setCondition(condition).setTable(tableName);%n\t\tSqlPara sqlPara = getSqlPara(\"find\", kv);%n\t\tString key = \"%s:find:\" + Json.getJson().toJson(kv);%n\t\tDbCacheKit.addKey(key);%n\t\treturn findByCache(CacheConstant.DB, key, sqlPara.getSql(), sqlPara.getPara());%n\t}%n%n";
     protected String paginateTemplate = "\tpublic com.jfinal.plugin.activerecord.Page<%s> paginate(Page page, Map condition) {%n\t\tFindKv kv = FindKv.create().setCondition(condition).setTable(tableName);%n\t\tSqlPara sqlPara = getSqlPara(\"paginate-except\", kv);%n\t\tJson json = Json.getJson();%n\t\tString key = \"%s:paginate:\" + json.toJson(page) + json.toJson(kv);%n\t\tDbCacheKit.addKey(key);%n\t\treturn paginateByCache(CacheConstant.DB, key, page.getPageNumber(), page.getPageSize(), getSql(\"paginate-select\"), sqlPara.getSql(), sqlPara.getPara());%n\t}%n%n";
     protected String saveTemplate = "\t@Override%n\tpublic boolean save() {%n\t\tDbCacheKit.removeCacheStarWith(\"%s:paginate\");%n\t\treturn super.save();%n\t}%n%n";
@@ -40,6 +41,7 @@ public class MyModelGenerator extends ModelGenerator {
         this.genDao(tableMeta, ret);
         this.getTableName(tableMeta, ret);
         this.getFindFunction(tableMeta, ret);
+        this.getFindFirst(tableMeta, ret);
         this.getPaginate(tableMeta, ret);
         this.getSave(tableMeta, ret);
         this.getUpdate(tableMeta, ret);
@@ -74,5 +76,9 @@ public class MyModelGenerator extends ModelGenerator {
 
     protected void getDelete(TableMeta tableMeta, StringBuilder ret) {
         ret.append(String.format(deleteTemplate, new Object[] { tableMeta.modelName }));
+    }
+
+    protected void getFindFirst(TableMeta tableMeta, StringBuilder ret) {
+        ret.append(String.format(findFirstTemplate, new Object[] { tableMeta.modelName, tableMeta.modelName }));
     }
 }

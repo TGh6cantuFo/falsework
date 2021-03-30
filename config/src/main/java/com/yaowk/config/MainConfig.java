@@ -13,9 +13,12 @@ import com.yaowk.common.ext.FastJsonWithNullFactory;
 import com.yaowk.common.ext.JsonRenderFactory;
 import com.yaowk.common.kit.DataPluginKit;
 import com.yaowk.common.plugin.CommonSqlPlugin;
-import com.yaowk.system.UserRoutes;
+import com.yaowk.device.DeviceRoutes;
+import com.yaowk.device.common.DeviceSqlPlugin;
+import com.yaowk.system.SystemRoutes;
 import com.yaowk.system.common.UserSqlPlugin;
 import com.yaowk.system.interceptor.PlatformIdInterceptor;
+import com.yaowk.weixin.common.ApiConfigInit;
 
 /**
  * @authc yaowk
@@ -39,7 +42,8 @@ public class MainConfig extends JFinalConfig {
     @Override
     public void configRoute(Routes routes) {
         this.routes = routes;
-        routes.add(new UserRoutes());
+        routes.add(new SystemRoutes());
+        routes.add(new DeviceRoutes());
     }
 
     @Override
@@ -65,6 +69,7 @@ public class MainConfig extends JFinalConfig {
 
         plugins.add(new CommonSqlPlugin(arp));
         plugins.add(new UserSqlPlugin(arp));
+        plugins.add(new DeviceSqlPlugin(arp));
 
         arp.setShowSql(true);
         plugins.add(arp);
@@ -80,5 +85,11 @@ public class MainConfig extends JFinalConfig {
     @Override
     public void configHandler(Handlers handlers) {
 
+    }
+
+    @Override
+    public void afterJFinalStart() {
+        super.afterJFinalStart();
+        ApiConfigInit.init();
     }
 }

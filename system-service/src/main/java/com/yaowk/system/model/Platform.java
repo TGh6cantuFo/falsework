@@ -51,7 +51,7 @@ public class Platform extends BasePlatform<Platform> {
     @Override
     public boolean delete() {
         DbCacheKit.removeCacheStarWith("Platform");
-        return setStatus(0).update();
+        return setStatus(STATUS_DELETE).update();
     }
 
     public static final Integer STATUS_NORMAL = 1; // 正常

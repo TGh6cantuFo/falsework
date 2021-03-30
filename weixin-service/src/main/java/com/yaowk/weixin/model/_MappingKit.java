@@ -16,7 +16,9 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("sys_fans", "id", Fans.class);
+		arp.addMapping("wx_config", "id", Config.class);
+		arp.addMapping("wx_fans", "id", Fans.class);
+		arp.addMapping("wx_order", "id", Order.class);
 	}
 }
 

@@ -27,42 +27,6 @@ public abstract class BasePlatform<M extends BasePlatform<M>> extends Model<M> i
 		return get("name");
 	}
 
-	public M setAppId(java.lang.String appId) {
-		set("app_id", appId);
-		return (M)this;
-	}
-
-	public java.lang.String getAppId() {
-		return get("app_id");
-	}
-
-	public M setAppSecret(java.lang.String appSecret) {
-		set("app_secret", appSecret);
-		return (M)this;
-	}
-
-	public java.lang.String getAppSecret() {
-		return get("app_secret");
-	}
-
-	public M setEncodingAesKey(java.lang.String encodingAesKey) {
-		set("encoding_aes_key", encodingAesKey);
-		return (M)this;
-	}
-
-	public java.lang.String getEncodingAesKey() {
-		return get("encoding_aes_key");
-	}
-
-	public M setMessageEncrypt(java.lang.Integer messageEncrypt) {
-		set("message_encrypt", messageEncrypt);
-		return (M)this;
-	}
-
-	public java.lang.Integer getMessageEncrypt() {
-		return get("message_encrypt");
-	}
-
 	public M setStatus(java.lang.Integer status) {
 		set("status", status);
 		return (M)this;

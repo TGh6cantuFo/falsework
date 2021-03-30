@@ -1,12 +1,13 @@
 package com.yaowk.system;
 
+import com.jfinal.config.Routes;
 import com.yaowk.system.controller.*;
 
 /**
  * @authc yaowk
  * 2017/7/13
  */
-public class UserRoutes extends com.jfinal.config.Routes {
+public class SystemRoutes extends Routes {
     @Override
     public void config() {
         add("/admin/user", UserController.class);

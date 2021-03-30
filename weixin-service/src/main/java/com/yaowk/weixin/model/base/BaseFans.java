@@ -126,4 +126,13 @@ public abstract class BaseFans<M extends BaseFans<M>> extends Model<M> implement
 		return get("platform_id");
 	}
 
+	public M setUserId(java.lang.Integer userId) {
+		set("user_id", userId);
+		return (M)this;
+	}
+
+	public java.lang.Integer getUserId() {
+		return get("user_id");
+	}
+
 }
