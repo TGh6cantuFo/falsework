@@ -1,9 +1,13 @@
 package com.yaowk.device.controller;
 
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.kit.Kv;
+import com.xiaoleilu.hutool.util.ArrayUtil;
 import com.yaowk.common.controller.BaseController;
 import com.yaowk.device.model.Device;
 import com.yaowk.device.model.DeviceUser;
+import com.yaowk.device.validator.DeviceIdValidator;
 import com.yaowk.system.shiro.TokenKit;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,6 +23,7 @@ import java.util.List;
  */
 @RequiresAuthentication
 @RequiresPermissions("device:device")
+@Before(DeviceIdValidator.class)
 public class DeviceController extends BaseController {
 
     public void index() {
@@ -27,6 +32,7 @@ public class DeviceController extends BaseController {
         renderJson(device);
     }
 
+    @Clear(DeviceIdValidator.class)
     public void list() {
         Integer userId = TokenKit.getUserId();
         Kv condition = Kv.by("user_id = ", userId);
@@ -39,6 +45,7 @@ public class DeviceController extends BaseController {
         renderJson(devices);
     }
 
+    @Clear(DeviceIdValidator.class)
     @RequiresPermissions("device:device:add")
     public void add() {
         Device device = getBean(Device.class, "", true);
@@ -61,9 +68,20 @@ public class DeviceController extends BaseController {
         renderSuccess();
     }
 
-    public void bandUser() {
-        Device device = getBean(Device.class, "", true);
-        device.update();
+    @RequiresPermissions("device:device:userEdit")
+    public void userEdit() {
+        Integer id = getParaToInt();
+        Integer[] userIds = getParaValuesToInt("userId");
+        List<DeviceUser> deviceUserList = DeviceUser.dao.find(Kv.by("device_id = ", id));
+        for (DeviceUser deviceUser : deviceUserList) {
+            deviceUser.delete();
+        }
+        if (ArrayUtil.isNotEmpty(userIds)) {
+            for (Integer userId : userIds) {
+                new DeviceUser().setUserId(userId).setDeviceId(id).save();
+            }
+        }
+        new DeviceUser().setUserId(TokenKit.getUserId()).setDeviceId(id).save();
+        renderSuccess();
     }
-
 }

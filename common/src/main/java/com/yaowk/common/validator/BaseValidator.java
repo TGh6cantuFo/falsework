@@ -11,7 +11,7 @@ import com.yaowk.common.model.element.RespBody;
  */
 public abstract class BaseValidator extends Validator {
 
-    public static final String ERROR_KEY = "error_key";
+    protected static final String ERROR_KEY = "error_key";
 
     @Override
     protected void handleError(Controller controller) {

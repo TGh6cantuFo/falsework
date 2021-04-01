@@ -1,8 +1,12 @@
 package com.yaowk.device.controller;
 
+import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.kit.Kv;
 import com.yaowk.common.controller.BaseController;
 import com.yaowk.device.model.Goods;
+import com.yaowk.device.validator.DeviceIdValidator;
+import com.yaowk.device.validator.GoodsIdValidator;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
@@ -16,6 +20,7 @@ import java.util.List;
  */
 @RequiresAuthentication
 @RequiresPermissions("device:goods")
+@Before(GoodsIdValidator.class)
 public class GoodsController extends BaseController {
 
     public void index() {
@@ -24,6 +29,8 @@ public class GoodsController extends BaseController {
         renderJson(goods);
     }
 
+    @Clear(GoodsIdValidator.class)
+    @Before(DeviceIdValidator.class)
     public void list() {
         Integer deviceId = getParaToInt();
         Kv condition = Kv.by("device_id = ", deviceId).set("status != ", Goods.STATUS_DELETE);
@@ -31,6 +38,7 @@ public class GoodsController extends BaseController {
         renderJson(goodsList);
     }
 
+    @Clear(GoodsIdValidator.class)
     @RequiresPermissions("device:goods:add")
     public void add() {
         Goods goods = getBean(Goods.class, "", true);
