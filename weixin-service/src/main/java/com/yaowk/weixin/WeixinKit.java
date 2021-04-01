@@ -20,7 +20,7 @@ public class WeixinKit {
         Kv condition = Kv.by("code = ", code);
         Device device = Device.dao.findFirst(condition);
         if (ObjectUtil.isNotNull(device)) {
-            condition = Kv.by("platform_id = ", device.getPlatformId());
+            condition = Kv.by("platform_id = ", device.getBindPlatformId());
             Config config = Config.dao.findFirst(condition);
             return config;
         }

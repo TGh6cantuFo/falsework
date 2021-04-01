@@ -63,22 +63,22 @@ public abstract class BaseDevice<M extends BaseDevice<M>> extends Model<M> imple
 		return get("remark");
 	}
 
-	public M setPlatformId(java.lang.Integer platformId) {
-		set("platform_id", platformId);
+	public M setBindUserId(java.lang.Integer bindUserId) {
+		set("bind_user_id", bindUserId);
 		return (M)this;
 	}
 
-	public java.lang.Integer getPlatformId() {
-		return get("platform_id");
+	public java.lang.Integer getBindUserId() {
+		return get("bind_user_id");
 	}
 
-	public M setAppId(java.lang.String appId) {
-		set("app_id", appId);
+	public M setBindPlatformId(java.lang.Integer bindPlatformId) {
+		set("bind_platform_id", bindPlatformId);
 		return (M)this;
 	}
 
-	public java.lang.String getAppId() {
-		return get("app_id");
+	public java.lang.Integer getBindPlatformId() {
+		return get("bind_platform_id");
 	}
 
 }

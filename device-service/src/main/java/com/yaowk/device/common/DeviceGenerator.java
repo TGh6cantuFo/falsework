@@ -14,9 +14,9 @@ public class DeviceGenerator extends AbstractGenerator {
         super(tableNames, tableNamePrefix);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         // 需要生成model的表名
-        List tableNames = Arrays.asList(new String[] { "d_device","d_goods","d_replenishment_log" });
+        List tableNames = Arrays.asList(new String[] { "d_device", "d_goods", "d_replenishment_log", "d_device_user" });
 
         new DeviceGenerator(tableNames, "d_").generator();
     }

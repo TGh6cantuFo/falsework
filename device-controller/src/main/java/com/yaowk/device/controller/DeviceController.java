@@ -3,9 +3,12 @@ package com.yaowk.device.controller;
 import com.jfinal.kit.Kv;
 import com.yaowk.common.controller.BaseController;
 import com.yaowk.device.model.Device;
+import com.yaowk.device.model.DeviceUser;
+import com.yaowk.system.shiro.TokenKit;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,9 +28,14 @@ public class DeviceController extends BaseController {
     }
 
     public void list() {
-        Integer platformId = getParaToInt("platformId");
-        Kv condition = Kv.by("platform_id = ", platformId).set("status != ", Device.STATUS_DELETE);
-        List<Device> devices = Device.dao.find(condition);
+        Integer userId = TokenKit.getUserId();
+        Kv condition = Kv.by("user_id = ", userId);
+        List<DeviceUser> deviceUserList = DeviceUser.dao.find(condition);
+        List<Device> devices = new ArrayList<>();
+        for (DeviceUser deviceUser : deviceUserList) {
+            condition = Kv.by("id = ", deviceUser.getDeviceId()).set("status = ", Device.STATUS_NORMAL);
+            devices.add(Device.dao.findFirst(condition));
+        }
         renderJson(devices);
     }
 
@@ -35,6 +43,7 @@ public class DeviceController extends BaseController {
     public void add() {
         Device device = getBean(Device.class, "", true);
         device.save();
+        new DeviceUser().setDeviceId(device.getId()).setUserId(TokenKit.getUserId()).save();
         renderSuccess();
     }
 
@@ -50,6 +59,11 @@ public class DeviceController extends BaseController {
         Integer id = getParaToInt();
         new Device().setId(id).delete();
         renderSuccess();
+    }
+
+    public void bandUser() {
+        Device device = getBean(Device.class, "", true);
+        device.update();
     }
 
 }

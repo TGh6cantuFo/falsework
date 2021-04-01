@@ -17,6 +17,7 @@ public class _MappingKit {
 
 	public static void mapping(ActiveRecordPlugin arp) {
 		arp.addMapping("d_device", "id", Device.class);
+		arp.addMapping("d_device_user", "id", DeviceUser.class);
 		arp.addMapping("d_goods", "id", Goods.class);
 		arp.addMapping("d_replenishment_log", "id", ReplenishmentLog.class);
 	}

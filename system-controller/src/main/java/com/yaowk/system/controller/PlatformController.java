@@ -1,35 +1,38 @@
 package com.yaowk.system.controller;
 
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.kit.Kv;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.xiaoleilu.hutool.util.ArrayUtil;
 import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.yaowk.common.controller.BaseController;
-import com.yaowk.system.interceptor.PlatformIdInterceptor;
 import com.yaowk.system.model.Platform;
 import com.yaowk.system.model.User;
 import com.yaowk.system.model.UserPlatform;
 import com.yaowk.system.shiro.TokenKit;
+import com.yaowk.system.validator.PlatformIdValidator;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @authc yaowk
  * 2017/7/16
  */
+@RequiresAuthentication
 @RequiresPermissions("system:platform")
+@Before(PlatformIdValidator.class)
 public class PlatformController extends BaseController {
 
     public void index() {
-        Integer id = getParaToInt("platformId");
+        Integer id = getParaToInt();
         Platform platform = Platform.dao.findById(id);
         renderJson(platform);
     }
 
-    @Clear(PlatformIdInterceptor.class)
+    @Clear(PlatformIdValidator.class)
     public void list() {
         Kv condition = Kv.by("user_id = ", TokenKit.getUserId());
         List<UserPlatform> userPlatforms = UserPlatform.dao.find(condition);
@@ -43,12 +46,29 @@ public class PlatformController extends BaseController {
         renderJson(platforms);
     }
 
-    @Clear(PlatformIdInterceptor.class)
+    public void userList() {
+        List<User> userList = User.dao.find(Kv.by("parent_id = ", TokenKit.getUserId()));
+        List<UserPlatform> userPlatformList = UserPlatform.dao.find(Kv.by("platform_id = ", getParaToInt()));
+        Set<Integer> userIdSet = new HashSet<>();
+        for (UserPlatform userPlatform : userPlatformList) {
+            userIdSet.add(userPlatform.getUserId());
+        }
+        for (User user : userList) {
+            if (userIdSet.contains(user.getId())) {
+                user.set("checked", true);
+            }
+            else {
+                user.set("checked", false);
+            }
+        }
+        renderJson(userList);
+    }
+
+    @Clear(PlatformIdValidator.class)
     @RequiresPermissions("system:platform:add")
     public void add() {
         Platform platform = getBean(Platform.class, "", true);
         platform.save();
-        updateUserPlatform(platform.getId());
         renderSuccess();
     }
 
@@ -56,23 +76,22 @@ public class PlatformController extends BaseController {
     public void edit() {
         Platform platform = getBean(Platform.class, "", true);
         platform.update();
-        updateUserPlatform(platform.getId());
         renderSuccess();
     }
 
     @RequiresPermissions("system:platform:delete")
     public void delete() {
-        Integer platformId = getParaToInt("platformId");
+        Integer platformId = getParaToInt();
         new Platform().setId(platformId).delete();
         renderSuccess();
     }
 
     /**
      * 维护平台和用户关系
-     *
-     * @param platformId
      */
-    private void updateUserPlatform(Integer platformId) {
+    @RequiresPermissions("system:platform:userEdit")
+    public void userEdit() {
+        Integer platformId = getParaToInt();
         Integer[] userIds = getParaValuesToInt("userId");
         if (ArrayUtil.isNotEmpty(userIds)) {
             // 先查询这个管理员的下属
@@ -90,9 +109,10 @@ public class PlatformController extends BaseController {
                 }
             }
 
-            // 查询该平台的所欲操作者
+            // 查询该平台的所有操作者
             condition = Kv.by("platform_id = ", platformId);
             List<UserPlatform> userPlatforms = UserPlatform.dao.find(condition);
+            list = new ArrayList<>();
             for (UserPlatform userPlatform : userPlatforms) {
                 list.add(userPlatform.getUserId());
             }

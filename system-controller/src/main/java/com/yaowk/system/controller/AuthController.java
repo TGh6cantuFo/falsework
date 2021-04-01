@@ -1,6 +1,5 @@
 package com.yaowk.system.controller;
 
-import com.jfinal.aop.Clear;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.yaowk.common.constant.CacheConstant;
@@ -8,7 +7,6 @@ import com.yaowk.common.constant.ServiceCode;
 import com.yaowk.common.controller.BaseController;
 import com.yaowk.common.kit.I18nKit;
 import com.yaowk.system.Constant;
-import com.yaowk.system.interceptor.PlatformIdInterceptor;
 import com.yaowk.system.model.User;
 import com.yaowk.system.shiro.TokenKit;
 import org.apache.shiro.SecurityUtils;
@@ -22,7 +20,6 @@ import org.apache.shiro.subject.Subject;
  * @authc yaowk
  * 2017/7/5
  */
-@Clear({ PlatformIdInterceptor.class })
 public class AuthController extends BaseController {
 
     public void login() {
@@ -41,7 +38,7 @@ public class AuthController extends BaseController {
             renderFail(ServiceCode.FAIL, I18nKit.get("username_or_password_mistake", Constant.MODULE_NAME, this));
             return;
         }
-        renderSuccess();
+        renderJson(TokenKit.getUserInfo());
     }
 
     public void logout() {

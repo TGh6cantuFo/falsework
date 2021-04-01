@@ -5,7 +5,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.ext.plugin.shiro.ShiroInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
-import com.jfinal.plugin.activerecord.tx.TxByMethods;
+import com.jfinal.plugin.activerecord.tx.TxByMethodRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.template.Engine;
@@ -17,7 +17,6 @@ import com.yaowk.device.DeviceRoutes;
 import com.yaowk.device.common.DeviceSqlPlugin;
 import com.yaowk.system.SystemRoutes;
 import com.yaowk.system.common.UserSqlPlugin;
-import com.yaowk.system.interceptor.PlatformIdInterceptor;
 import com.yaowk.weixin.common.ApiConfigInit;
 
 /**
@@ -78,8 +77,8 @@ public class MainConfig extends JFinalConfig {
     @Override
     public void configInterceptor(Interceptors interceptors) {
         interceptors.add(new ShiroInterceptor());
-        interceptors.add(new PlatformIdInterceptor());
-        interceptors.add(new TxByMethods("add", "edit", "delete"));
+//        interceptors.add(new TxByMethods("add", "edit", "delete"));
+        interceptors.add(new TxByMethodRegex("add|edit|delete|.+Edit"));
     }
 
     @Override
